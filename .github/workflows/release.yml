@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: pypa/cibuildwheel@v2.18.0
+      - uses: pypa/cibuildwheel@v3.4.1
         env:
           CIBW_ARCHS_LINUX: "x86_64 aarch64"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
