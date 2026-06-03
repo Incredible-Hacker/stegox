@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stegox.dev/schemas/report.schema.json",
+  "title": "StegoX Report",
+  "type": "object",
+  "required": ["report_version", "tool", "target", "scan", "score"],
+  "properties": {
+    "report_version": {"type": "string"},
+    "tool": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"type": "string"},
+        "version": {"type": "string"},
+        "commit": {"type": "string"},
+        "operator": {"type": "string"},
+        "host": {"type": "string"}
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": ["path", "sha256", "md5", "sha1", "size", "media_type", "format"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"type": "string"},
+        "md5": {"type": "string"},
+        "sha1": {"type": "string"},
+        "size": {"type": "integer"},
+        "media_type": {"type": "string"},
+        "format": {"type": "string"}
+      }
+    },
+    "scan": {
+      "type": "object",
+      "required": ["started_at", "finished_at", "duration_ms"],
+      "properties": {
+        "started_at": {"type": "string"},
+        "finished_at": {"type": "string"},
+        "duration_ms": {"type": "number"}
+      }
+    },
+    "score": {
+      "type": "object",
+      "required": ["value", "classification", "rationale"],
+      "properties": {
+        "value": {"type": "integer", "minimum": 0, "maximum": 100},
+        "classification": {"type": "string", "enum": ["low", "medium", "high"]},
+        "rationale": {"type": "string"},
+        "detector_contributions": {"type": "object"}
+      }
+    },
+    "indicators": {"type": "array"},
+    "evidence": {"type": "array"},
+    "recommendations": {"type": "array"},
+    "detector_results": {"type": "array"}
+  }
+}

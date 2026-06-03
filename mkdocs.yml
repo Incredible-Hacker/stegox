@@ -1,0 +1,88 @@
+site_name: StegoX
+site_description: Local-first steganography, steganalysis, and DFIR toolkit.
+site_url: https://stegox.readthedocs.io
+repo_url: https://github.com/stegox/stegox
+repo_name: stegox/stegox
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_source: true
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - CLI:
+    - cli/index.md
+    - Image: cli/image.md
+    - Audio: cli/audio.md
+    - Video: cli/video.md
+    - Text: cli/text.md
+    - Metadata: cli/metadata.md
+    - Detect: cli/detect.md
+  - Detectors:
+    - detectors/index.md
+    - Image: detectors/image.md
+    - Audio: detectors/audio.md
+    - Video: detectors/video.md
+    - Text: detectors/text.md
+  - Forensics:
+    - forensics/workflow.md
+    - forensics/reporting.md
+    - forensics/case_workflow.md
+  - Plugins:
+    - plugins/writing_a_plugin.md
+    - plugins/plugin_api.md
+  - Security:
+    - security/crypto.md
+    - security/threat_model.md
+  - Governance:
+    - governance/contributing.md
+    - governance/release.md
+    - governance/rfc_process.md

@@ -1,0 +1,27 @@
+"""CLI exit codes."""
+
+EXIT_OK: int = 0
+EXIT_GENERIC: int = 1
+EXIT_USAGE: int = 2
+EXIT_NOENT: int = 3
+EXIT_UNSUPPORTED: int = 4
+EXIT_INTEGRITY: int = 5
+EXIT_PERMISSION: int = 6
+EXIT_PLUGIN: int = 7
+EXIT_TIMEOUT: int = 8
+EXIT_CANCELLED: int = 9
+EXIT_FINDINGS: int = 10
+
+__all__ = [
+    "EXIT_CANCELLED",
+    "EXIT_FINDINGS",
+    "EXIT_GENERIC",
+    "EXIT_INTEGRITY",
+    "EXIT_NOENT",
+    "EXIT_OK",
+    "EXIT_PERMISSION",
+    "EXIT_PLUGIN",
+    "EXIT_TIMEOUT",
+    "EXIT_UNSUPPORTED",
+    "EXIT_USAGE",
+]

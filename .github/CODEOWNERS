@@ -1,0 +1,15 @@
+# StegoX module ownership
+# Each line is a file pattern followed by one or more owners.
+
+/src/stegox/core/        @stegox/core-maintainers
+/src/stegox/engine/      @stegox/core-maintainers
+/src/stegox/security/    @stegox/security-maintainers
+/src/stegox/detectors/   @stegox/detectors-maintainers
+/src/stegox/modules/     @stegox/modules-maintainers
+/src/stegox/plugins/     @stegox/plugins-maintainers
+/src/stegox/reports/     @stegox/reports-maintainers
+/src/stegox/forensics/   @stegox/forensics-maintainers
+/src/stegox/cli/         @stegox/cli-maintainers
+/docs/                   @stegox/docs-maintainers
+/rfcs/                   @stegox/core-maintainers
+/.github/                @stegox/release-maintainers

@@ -1,0 +1,231 @@
+[build-system]
+requires = ["hatchling>=1.18.0", "hatch-vcs>=0.4.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "stegox"
+description = "All-in-one local-first steganography, steganalysis, and digital forensics toolkit."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+keywords = ["steganography", "steganalysis", "dfir", "forensics", "ctf", "security"]
+authors = [
+    { name = "StegoX Contributors" },
+]
+maintainers = [
+    { name = "StegoX Maintainers", email = "maintainers@stegox.dev" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Multimedia",
+    "Typing :: Typed",
+]
+dynamic = ["version"]
+
+dependencies = [
+    "Pillow>=10.0.0",
+    "numpy>=1.24.0",
+    "soundfile>=0.12.1",
+    "imageio>=2.31.0",
+    "imageio-ffmpeg>=0.4.9",
+    "mutagen>=1.47.0",
+    "cryptography>=42.0.0",
+    "typer>=0.9.0",
+    "rich>=13.7.0",
+    "PyYAML>=6.0",
+    "pluggy>=1.3.0",
+    "pydantic>=2.5.0",
+    "Jinja2>=3.1.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "pytest-xdist>=3.5.0",
+    "hypothesis>=6.92.0",
+    "tox>=4.11.0",
+    "ruff>=0.3.0",
+    "mypy>=1.8.0",
+    "pre-commit>=3.5.0",
+    "bandit>=1.7.7",
+    "pip-audit>=2.6.0",
+    "types-PyYAML>=6.0.0",
+]
+extras = [
+    "scipy>=1.11.0",
+    "matplotlib>=3.8.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.4.0",
+    "mkdocstrings[python]>=0.24.0",
+]
+fuzz = [
+    "atheris>=2.3.0",
+]
+
+[project.scripts]
+stegox = "stegox.cli.app:main"
+
+[project.entry-points."stegox.plugin"]
+hello_detector = "stegox.plugins.examples.hello_detector.plugin:register"
+
+[project.urls]
+Homepage = "https://github.com/stegox/stegox"
+Documentation = "https://stegox.readthedocs.io"
+Repository = "https://github.com/stegox/stegox"
+Issues = "https://github.com/stegox/stegox/issues"
+Changelog = "https://github.com/stegox/stegox/blob/main/CHANGELOG.md"
+Security = "https://github.com/stegox/stegox/blob/main/SECURITY.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/stegox"]
+include = [
+    "src/stegox/py.typed",
+    "src/stegox/reports/html/templates/*.html",
+    "src/stegox/reports/html/static/*",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/stegox",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SPEC.md",
+    "docs",
+    "rfcs",
+]
+
+[tool.hatch.version]
+source = "vcs"
+fallback-version = "0.1.0.dev0"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+extend-exclude = [".venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",   # pycodestyle, pyflakes
+    "I",             # isort
+    "N",             # pep8-naming
+    "UP",            # pyupgrade
+    "B",             # bugbear
+    "C4",            # comprehensions
+    "SIM",           # simplify
+    "RUF",           # ruff-specific
+    "PT",            # pytest style
+    "PTH",           # use-pathlib
+    "RET",           # return
+    "TID",           # tidy imports
+]
+ignore = [
+    "E501",  # handled by formatter
+    "B008",  # function call in default argument (Typer requires this)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "PT011"]
+"src/stegox/plugins/examples/**" = ["TID252"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["stegox"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = false
+warn_return_any = false
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+disable_error_code = ["no-untyped-def", "no-untyped-call", "type-arg", "assignment", "attr-defined", "return-value", "index", "operator", "call-overload", "arg-type", "call-arg"]
+plugins = ["pydantic.mypy"]
+mypy_path = "src"
+files = ["src/stegox"]
+
+[[tool.mypy.overrides]]
+module = ["stegox.core", "stegox.engine", "stegox.security"]
+strict = false
+
+[tool.pytest.ini_options]
+minversion = "7.4"
+testpaths = ["tests"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--showlocals",
+    "--tb=short",
+]
+markers = [
+    "slow: marks tests as slow",
+    "integration: integration tests",
+    "property: property-based tests",
+    "regression: regression tests",
+    "fuzz: fuzzing tests",
+    "network: tests that require network access (skipped by default)",
+]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning:stegox.*",
+    "ignore::ResourceWarning",
+    "ignore::pytest.PytestUnraisableExceptionWarning",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["src/stegox"]
+omit = [
+    "src/stegox/plugins/examples/*",
+    "src/stegox/version.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "tools"]
+skips = ["B101"]
+
+[tool.tox]
+env_list = ["py310", "py311", "py312", "lint", "type", "security"]
+isolated_build = true
+
+[tool.tox.env_run_base]
+deps = ["-r requirements-dev.txt"]
+commands = [["pytest", "--cov=stegox", "--cov-report=term-missing"]]
+
+[tool.tox.env.lint]
+deps = ["ruff>=0.3.0"]
+commands = [["ruff", "check", "src", "tests"], ["ruff", "format", "--check", "src", "tests"]]
+
+[tool.tox.env.type]
+deps = ["mypy>=1.8.0"]
+commands = [["mypy", "src/stegox"]]
+
+[tool.tox.env.security]
+deps = ["bandit>=1.7.7", "pip-audit>=2.6.0"]
+commands = [["bandit", "-r", "src/stegox"], ["pip-audit"]]
