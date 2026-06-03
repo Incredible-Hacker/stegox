@@ -55,9 +55,9 @@ CLI  ->  Engine  ->  Modules + Detectors  ->  Reports
 
 ## Contributing
 
-See [CONTRIBUTING.md](https://github.com/stegox/stegox/blob/main/CONTRIBUTING.md)
+See [CONTRIBUTING.md](https://github.com/Incredible-Hacker/stegox/blob/main/CONTRIBUTING.md)
 and the [RFC process](rfcs/0001-record-process.md).
 
 ## License
 
-MIT — see [LICENSE](https://github.com/stegox/stegox/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/Incredible-Hacker/stegox/blob/main/LICENSE).

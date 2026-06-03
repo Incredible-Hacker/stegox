@@ -17,7 +17,7 @@ All participants are expected to follow our [Code of Conduct](CODE_OF_CONDUCT.md
 ## Development Setup
 
 ```bash
-git clone https://github.com/stegox/stegox.git
+git clone https://github.com/Incredible-Hacker/stegox.git
 cd stegox
 python -m venv .venv
 source .venv/bin/activate

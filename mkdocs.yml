@@ -1,8 +1,8 @@
 site_name: StegoX
 site_description: Local-first steganography, steganalysis, and DFIR toolkit.
 site_url: https://stegox.readthedocs.io
-repo_url: https://github.com/stegox/stegox
-repo_name: stegox/stegox
+repo_url: https://github.com/Incredible-Hacker/stegox
+repo_name: Incredible-Hacker/stegox
 docs_dir: docs
 site_dir: site
 
