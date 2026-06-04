@@ -1,0 +1,22 @@
+TOP SECRET — DO NOT DISTRIBUTE
+
+Project codename: AURORA
+Classification: TIER-1
+Valid through: 2026-12-31
+Distribution: NEED-TO-KNOW
+
+Payload:
+    StegoX v0.1.0 round-trip test marker.
+    sha256(stego_payload) = e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    fingerprint = 0xDEADBEEFCAFEBABE1337F00DBABE
+    session-id = sess_2026_06_03_001
+    agent = stegox-ci-bot
+    nonce = 7c4a8d09ca3762af61e59520943dc26494f8941b
+
+    --BEGIN EMBED--
+    aGVsbG8gd29ybGQK
+    --END EMBED--
+
+This is a deterministic payload used by the StegoX regression suite
+to verify hide -> extract round-trips across every media type and
+strategy. It must be exactly 256 bytes including the trailing newline.
