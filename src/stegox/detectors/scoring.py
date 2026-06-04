@@ -48,10 +48,11 @@ class ScoringEngine:
             weight = self.config.weights.get(res.detector_id, 0.0)
             if weight <= 0.0:
                 continue
-            total_possible += weight * 1.0 * 1.0  # max indicator multiplier is 1.5
-            confidence = _clamp(res.confidence, 0.0, 1.0)
-            multiplier = self._indicator_multiplier(res.indicators)
-            contribution = weight * confidence * multiplier
+            total_possible += weight  # max contribution per detector is its weight
+            verdict = _clamp(res.score, 0.0, 1.0)
+            certainty = _clamp(res.confidence, 0.0, 1.0)
+            indicator_score = self._indicator_score(res.indicators)
+            contribution = weight * verdict * certainty * indicator_score
             total_raw += contribution
             contributions[res.detector_id] = round(contribution, 4)
             raw_indicators.extend(res.indicators)
@@ -71,10 +72,18 @@ class ScoringEngine:
         )
 
     @staticmethod
-    def _indicator_multiplier(indicators: list[Indicator]) -> float:
+    def _indicator_score(indicators: list[Indicator]) -> float:
+        """Mean of per-indicator scores, weighted by their ``weight`` field.
+
+        Returns 0.0 if no indicators were produced. Used to roll the
+        indicator-level verdicts into a single 0-1 score for the
+        detector as a whole.
+        """
         if not indicators:
             return 0.0
-        return sum(i.weight for i in indicators) / len(indicators)
+        weighted = sum(_clamp(i.score, 0.0, 1.0) * i.weight for i in indicators)
+        denom = sum(i.weight for i in indicators) or 1.0
+        return weighted / denom
 
     @staticmethod
     def _build_rationale(contributions: dict[str, float], value: int) -> str:
