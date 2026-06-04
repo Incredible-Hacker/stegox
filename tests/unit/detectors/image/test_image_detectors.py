@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from stegox.core.types import DetectionContext
 from stegox.detectors.image.chi_square import ChiSquareDetector
 from stegox.detectors.image.histogram import HistogramDetector

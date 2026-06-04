@@ -2,19 +2,16 @@
 
 from __future__ import annotations
 
-import os
-import struct
 import wave
-import zlib
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 import numpy as np
 import pytest
 from PIL import Image
 
 
-@pytest.fixture()
+@pytest.fixture
 def tmp_workdir(tmp_path: Path) -> Path:
     """A clean working directory for each test."""
     d = tmp_path / "work"
@@ -22,7 +19,7 @@ def tmp_workdir(tmp_path: Path) -> Path:
     return d
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_png(tmp_path: Path) -> Path:
     """Create a 64x64 RGB PNG with random pixel data."""
     arr = (np.random.default_rng(0).integers(0, 256, (64, 64, 3), dtype=np.uint8))
@@ -31,7 +28,7 @@ def sample_png(tmp_path: Path) -> Path:
     return path
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_jpeg(tmp_path: Path) -> Path:
     """Create a 64x64 JPEG."""
     arr = (np.random.default_rng(0).integers(0, 256, (64, 64, 3), dtype=np.uint8))
@@ -40,7 +37,7 @@ def sample_jpeg(tmp_path: Path) -> Path:
     return path
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_bmp(tmp_path: Path) -> Path:
     arr = (np.random.default_rng(0).integers(0, 256, (32, 32, 3), dtype=np.uint8))
     path = tmp_path / "sample.bmp"
@@ -48,7 +45,7 @@ def sample_bmp(tmp_path: Path) -> Path:
     return path
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_tiff(tmp_path: Path) -> Path:
     arr = (np.random.default_rng(0).integers(0, 256, (32, 32, 3), dtype=np.uint8))
     path = tmp_path / "sample.tiff"
@@ -56,7 +53,7 @@ def sample_tiff(tmp_path: Path) -> Path:
     return path
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_wav(tmp_path: Path) -> Path:
     """Create a 1-second 16-bit mono WAV with random samples."""
     sr = 16000
@@ -70,31 +67,31 @@ def sample_wav(tmp_path: Path) -> Path:
     return path
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_txt(tmp_path: Path) -> Path:
     path = tmp_path / "sample.txt"
     path.write_text("The quick brown fox jumps over the lazy dog.\n", encoding="utf-8")
     return path
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_md(tmp_path: Path) -> Path:
     path = tmp_path / "sample.md"
     path.write_text("# Title\n\nA paragraph of text for analysis.\n", encoding="utf-8")
     return path
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_payload() -> bytes:
     """A small deterministic payload."""
     return b"StegoX payload marker: " + b"X" * 64
 
 
-@pytest.fixture()
+@pytest.fixture
 def registry_setup() -> Iterator[None]:
     """Ensure the built-in detectors are registered before the test."""
-    from stegox.detectors.registry import register_builtin, DetectorRegistry
+    from stegox.detectors.registry import DetectorRegistry, register_builtin
 
     if not DetectorRegistry.ids():
         register_builtin()
-    yield
+    return

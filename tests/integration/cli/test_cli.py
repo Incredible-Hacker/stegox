@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import pytest
 from typer.testing import CliRunner
 
 from stegox.cli.app import app
@@ -20,8 +19,8 @@ def test_version_flag() -> None:
 
 def test_image_hide_extract(tmp_path: Path) -> None:
     # Create a cover
-    from PIL import Image
     import numpy as np
+    from PIL import Image
 
     cover = tmp_path / "cover.png"
     arr = (np.random.default_rng(0).integers(0, 256, (128, 128, 3), dtype=np.uint8))
